@@ -1,7 +1,7 @@
 /* eslint-disable unused-imports/no-unused-vars-ts */
 import '~~/styles/main-page.css';
 import { GenericContract } from 'eth-components/ant/generic-contract';
-import { useContractReader, useBalance, useEthersAdaptorFromProviderOrSigners, useEventListener } from 'eth-hooks';
+import { useBalance, useEthersAdaptorFromProviderOrSigners } from 'eth-hooks';
 import { useEthersAppContext } from 'eth-hooks/context';
 import { useDexEthPrice } from 'eth-hooks/dapps';
 import { asEthersAdaptor } from 'eth-hooks/functions';
@@ -14,7 +14,6 @@ import { useAppContracts, useConnectAppContracts, useLoadAppContracts } from '~c
 import { useCreateAntNotificationHolder } from '~common/components/hooks/useAntNotification';
 import { useBurnerFallback } from '~common/components/hooks/useBurnerFallback';
 import { useScaffoldAppProviders } from '~common/components/hooks/useScaffoldAppProviders';
-import { networkDefinitions } from '~common/constants';
 import { useScaffoldHooksExamples } from '~~/components/hooks/useScaffoldHooksExamples';
 import {
   BURNER_FALLBACK_ENABLED,
@@ -83,20 +82,19 @@ export const MainPage: FC = () => {
   // -----------------------------
 
   // init contracts
-  const yourContract = useAppContracts('YourContract', ethersAppContext.chainId);
-  const yourNFT = useAppContracts('YourNFT', ethersAppContext.chainId);
-  const mainnetDai = useAppContracts('DAI', networkDefinitions.mainnet.chainId);
+  const antiochDAOMember = useAppContracts('AntiochDAOMember', ethersAppContext.chainId);
+  const antiochDAO = useAppContracts('AntiochDAO', ethersAppContext.chainId);
 
   // keep track of a variable from the contract in the local React state:
-  const [purpose, update] = useContractReader(
-    yourContract,
-    yourContract?.purpose,
-    [],
-    yourContract?.filters.SetPurpose()
-  );
-
-  // 📟 Listen for broadcast events
-  const [setPurposeEvents] = useEventListener(yourContract, yourContract?.filters.SetPurpose(), 0);
+  // const [purpose, update] = useContractReader(
+  //   antiochDAO,
+  //   antiochDAO?.purpose,
+  //   [],
+  //   antiochDAO?.filters.SetPurpose()
+  // );
+  //
+  // // 📟 Listen for broadcast events
+  // const [setPurposeEvents] = useEventListener(antiochDAO, antiochDAO?.filters.SetPurpose(), 0);
 
   // -----------------------------
   // .... 🎇 End of examples
@@ -122,36 +120,24 @@ export const MainPage: FC = () => {
 
   const pageList: TContractPageList = {
     mainPage: {
-      name: 'YourContract',
+      name: 'AntiochDAO',
       content: (
         <GenericContract
-          contractName="YourContract"
-          contract={yourContract}
+          contractName="AntiochDAO"
+          contract={antiochDAO}
           mainnetAdaptor={scaffoldAppProviders.mainnetAdaptor}
-          blockExplorer={scaffoldAppProviders.currentTargetNetwork.blockExplorer}
-        />
+          blockExplorer={scaffoldAppProviders.currentTargetNetwork.blockExplorer}></GenericContract>
       ),
     },
     pages: [
       {
-        name: 'YourNFT',
+        name: 'AntiochDAOMember',
         content: (
           <GenericContract
-            contractName="YourNFT"
-            contract={yourNFT}
+            contractName="AntiochDAOMember"
+            contract={antiochDAOMember}
             mainnetAdaptor={scaffoldAppProviders.mainnetAdaptor}
             blockExplorer={scaffoldAppProviders.currentTargetNetwork.blockExplorer}></GenericContract>
-        ),
-      },
-      {
-        name: 'Mainnet-Dai',
-        content: (
-          <GenericContract
-            contractName="Dai"
-            contract={mainnetDai}
-            mainnetAdaptor={scaffoldAppProviders.mainnetAdaptor}
-            blockExplorer={scaffoldAppProviders.currentTargetNetwork.blockExplorer}
-          />
         ),
       },
     ],
