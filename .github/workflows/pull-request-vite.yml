@@ -62,12 +62,12 @@ jobs:
       - name: 'Run tests'
         run: yarn test
 
-      - name: Publish unit test results
-        uses: EnricoMi/publish-unit-test-result-action@v1
-        if: always()
-        with:
-          files: testresult.xml
-          comment_mode: update last
-          hide_comments: all but latest
-          compare_to_earlier_commit: true
-          check_run_annotations: all tests, skipped tests
+#      - name: Publish unit test results
+#        uses: EnricoMi/publish-unit-test-result-action@v1
+#        if: always()
+#        with:
+#          files: testresult.xml
+#          comment_mode: update last
+#          hide_comments: all but latest
+#          compare_to_earlier_commit: true
+#          check_run_annotations: all tests, skipped tests
